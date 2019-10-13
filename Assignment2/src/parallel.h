@@ -6,6 +6,7 @@
 #include "ball.h"
 
 namespace parallel {
+	/////////////////////////////////init balls/////////////////////////////////
 	struct init_balls {
 	public:
 		init_balls(std::vector<ball>* const balls, const float min_rad);
@@ -15,7 +16,8 @@ namespace parallel {
 		std::vector<ball>* const p_balls;
 		const float MIN_RADIUS;
 	};
-
+	////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////init pairs/////////////////////////////////
 	struct init_pairs {
 	public:
 		init_pairs(std::vector<std::pair<ball*, ball*>>* const pairs, std::vector<ball>* const balls);
@@ -25,7 +27,8 @@ namespace parallel {
 		std::vector<std::pair<ball*, ball*>>* const p_pairs;
 		std::vector<ball>* const p_balls;
 	};
-
+	////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////wall bounce////////////////////////////////
 	struct wall_bounce {
 	public:
 		wall_bounce(std::vector<ball>* const balls);
@@ -34,7 +37,8 @@ namespace parallel {
 	private:
 		std::vector<ball>* const p_balls;
 	};
-
+	////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////ball bounce////////////////////////////////
 	struct ball_bounce {
 	public:
 		ball_bounce(std::vector<std::pair<ball*, ball*>>* const pairs);
@@ -43,7 +47,8 @@ namespace parallel {
 	private:
 		std::vector<std::pair<ball*, ball*>>* const p_pairs;
 	};
-
+	////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////update///////////////////////////////////
 	struct update {
 	public:
 		update(std::vector<ball>* const balls, vector2d* g, const float dt);
@@ -54,4 +59,5 @@ namespace parallel {
 		vector2d* p_GRAVITY;
 		float delta_t;
 	};
+	////////////////////////////////////////////////////////////////////////////
 }
