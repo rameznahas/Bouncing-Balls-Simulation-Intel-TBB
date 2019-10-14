@@ -43,10 +43,10 @@ void bouncing_balls_sim::update() {
 	previous_t = current_t;
 
 	tasks::draw& draw = *new(tbb::task::allocate_root()) tasks::draw(&balls, nullptr);
-	tasks::update& update_ = *new(tbb::task::allocate_root()) tasks::update(&balls, &draw, &GRAVITY, delta_t);
-	tasks::ball_collision& bc = *new(tbb::task::allocate_root()) tasks::ball_collision(&pairs, &update_);
+	tasks::ball_collision& bc = *new(tbb::task::allocate_root()) tasks::ball_collision(&pairs, &draw);
 	tasks::wall_collision& wc = *new(tbb::task::allocate_root()) tasks::wall_collision(&balls, &bc);
-	tbb::task::spawn_root_and_wait(wc);
+	tasks::update& update_ = *new(tbb::task::allocate_root()) tasks::update(&balls, &wc, &GRAVITY, delta_t);
+	tbb::task::spawn_root_and_wait(update_);
 }
 
 void bouncing_balls_sim::start(void(*callback)()) {
