@@ -139,7 +139,6 @@ copy "$(ProjectDir)Dependencies\TBB\bin\ia32\vc14" "$(OutDir)"</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\barrier.cpp" />
     <ClCompile Include="src\bouncing_balls_sim.cpp" />
     <ClCompile Include="src\parallel.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -149,7 +148,6 @@ copy "$(ProjectDir)Dependencies\TBB\bin\ia32\vc14" "$(OutDir)"</Command>
   <ItemGroup>
     <ClInclude Include="src\ball.h" />
     <ClInclude Include="src\bouncing_balls_sim.h" />
-    <ClInclude Include="src\barrier.h" />
     <ClInclude Include="src\parallel.h" />
     <ClInclude Include="src\tasks.h" />
     <ClInclude Include="src\vectors.h" />
