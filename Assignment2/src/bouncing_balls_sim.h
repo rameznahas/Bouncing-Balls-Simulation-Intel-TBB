@@ -2,7 +2,6 @@
 #include <vector>
 #include <time.h>
 #include "ball.h"
-#include "barrier.h"
 
 class bouncing_balls_sim {
 public:

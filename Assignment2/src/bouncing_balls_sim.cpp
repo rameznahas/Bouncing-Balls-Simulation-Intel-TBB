@@ -42,6 +42,8 @@ void bouncing_balls_sim::update() {
 	// store last draw time
 	previous_t = current_t;
 
+	// send command to worker threads (throught intel tbb's task scheduler)
+	// to start the computation for the next frame
 	tasks::update& update_ = *new(tbb::task::allocate_root()) tasks::update(&balls, &pairs, &GRAVITY, delta_t);
 	tbb::task::spawn_root_and_wait(update_);
 }
@@ -63,6 +65,8 @@ void bouncing_balls_sim::start(void(*callback)()) {
 void bouncing_balls_sim::init() {
 	size_t size = balls.size();
 
+	// create and cache random balls in parallel
 	tbb::parallel_for(tbb::blocked_range<size_t>(0, size), parallel::init_balls(&balls, MIN_RADIUS), tbb::auto_partitioner());
+	// create and cache the unique pair of balls in parallel
 	tbb::parallel_for(tbb::blocked_range2d<size_t, size_t>(0, size, 0, size), parallel::init_pairs(&pairs, &balls), tbb::auto_partitioner());
 }

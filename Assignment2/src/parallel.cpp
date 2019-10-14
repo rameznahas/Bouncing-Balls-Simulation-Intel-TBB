@@ -47,6 +47,9 @@ void parallel::init_pairs::operator()(const tbb::blocked_range2d<size_t, size_t>
 	for (size_t i = r.rows().begin(); i != r.rows().end(); ++i) {
 		for (size_t j = r.cols().begin(); j != r.cols().end(); ++j) {
 			if (j > i) {
+				// sync access to the vector
+				// better than to use a concurrent vector since this is the only time
+				// we do concurrent operations that change this vector
 				tbb::spin_mutex::scoped_lock lock(mutex);
 				pairs->push_back({ &balls->at(i), &balls->at(j) });
 			}
@@ -106,13 +109,16 @@ void parallel::ball_bounce::operator()(const tbb::blocked_range<size_t>& r) cons
 
 		float min_dist = current->radius + other->radius;
 
+		// Axis - aligned bounding - box check(optimization).
+		// Check if balls are close enough to go ahead with actual collision
+		// computation(which is more expensive).
 		if (current->center.x + min_dist > other->center.x
 			&& current->center.y + min_dist > other->center.y
 			&& other->center.x + min_dist > current->center.x
 			&& other->center.y + min_dist > current->center.y) {
 			vector2d c = current->center - other->center;
 
-			// balls are close enough, but it does not mean they have collided.
+			// true, so balls are close enough, but it does not mean they have collided.
 			// check for ball collision.
 			// if true, collision occured, handle it
 			if (powf(c.x, 2.f) + powf(c.y, 2.f) <= powf(min_dist, 2.f)) {

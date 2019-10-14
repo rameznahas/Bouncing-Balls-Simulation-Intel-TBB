@@ -1,4 +1,3 @@
-#include <iostream>
 #include "bouncing_balls_sim.h"
 
 bouncing_balls_sim* p_sim;
