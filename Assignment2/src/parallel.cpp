@@ -37,6 +37,7 @@ parallel::init_pairs::init_pairs(std::vector<std::pair<ball*, ball*>>* const pai
 	p_pairs(pairs),
 	p_balls(balls)
 {}
+
 tbb::spin_mutex mutex;
 
 void parallel::init_pairs::operator()(const tbb::blocked_range2d<size_t, size_t>& r) const {
@@ -105,13 +106,11 @@ void parallel::ball_bounce::operator()(const tbb::blocked_range<size_t>& r) cons
 
 		float min_dist = current->radius + other->radius;
 
-
 		if (current->center.x + min_dist > other->center.x
 			&& current->center.y + min_dist > other->center.y
 			&& other->center.x + min_dist > current->center.x
 			&& other->center.y + min_dist > current->center.y) {
 			vector2d c = current->center - other->center;
-			//float min_dist = current->radius + other->radius;
 
 			// balls are close enough, but it does not mean they have collided.
 			// check for ball collision.
