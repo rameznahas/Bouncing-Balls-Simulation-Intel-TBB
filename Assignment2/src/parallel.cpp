@@ -127,7 +127,7 @@ void parallel::ball_bounce::operator()(const tbb::blocked_range<size_t>& r) cons
 
 				vector2d dir = vector2d::normalize(c);
 
-				current->center += -overlap * dir;
+				current->center -= overlap * dir;
 				other->center += overlap * dir;
 
 				vector2d v = current->velocity - other->velocity;
